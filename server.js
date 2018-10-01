@@ -2,6 +2,7 @@ const express = require('express');
 const hbs = require('hbs');
 const fs = require('fs');
 // const exphbs = require('express-handlebars');
+const port = process.env.PORT || 3000;
 
 var app = express();
 hbs.registerPartials(__dirname + '/views/partials');
@@ -15,6 +16,7 @@ hbs.registerHelper('screamIt', text => text.toUpperCase());
 // app.engine('handlebars', exphbs());
 // Use Handlebars view engine
 // app.set('view engine', 'handlebars');
+
 
 
 //next tell your middleware that it is done, that it should move to the next request
@@ -31,12 +33,13 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use((req, res, next) => {
-    res.render('maintenance')
-})
+// app.use((req, res, next) => {
+//     res.render('maintenance')
+// })
 
 //lets use a middleware, we will specify the right path using "__dirname". It is important we define this after the maintenance middleware
 app.use(express.static(__dirname + '/public'));
+
 
 //setting up routes:
 app.get('/', (req, res) => {
@@ -70,7 +73,7 @@ app.get('/bad', (req, res) => {
     })
 })
 
-app.listen(8000, () => {
-    console.log("server is up on port 8000");
+app.listen(port, () => {
+    console.log(`server is up on port ${port}`);
     
 }) //this makes sure the app runs infinitely,except it crashes or u stop it
